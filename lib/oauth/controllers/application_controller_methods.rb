@@ -14,7 +14,8 @@ module OAuth
       end
       
       def oauthenticate
-        verified=verify_oauth_signature 
+        verified=verify_oauth_signature
+		logger.debug "def oauthenticate => #{verified} & #{current_token.is_a?(::AccessToken)}"
         return verified && current_token.is_a?(::AccessToken)
       end
       
@@ -24,6 +25,7 @@ module OAuth
       
       # use in a before_filter
       def oauth_required
+		logger.debug "def oauth_required => #{oauthenticate} & #{authorized?}"
         if oauthenticate
           if authorized?
             return true
